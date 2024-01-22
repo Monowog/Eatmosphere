@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:eatmosphere/game/routes/difficulty_selection.dart';
 import 'package:eatmosphere/game/routes/gameplay.dart';
 import 'package:eatmosphere/game/routes/main_menu.dart';
+import 'package:eatmosphere/game/routes/pause_menu.dart';
 import 'package:eatmosphere/game/routes/settings.dart';
+import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/widgets.dart' hide Route, OverlayRoute;
 
-class EatmosphereGame extends FlameGame {
+class EatmosphereGame extends FlameGame with HasKeyboardHandlerComponents {
   final musicValueNotifier = ValueNotifier(true);
   final sfxValueNotifier = ValueNotifier(true);
 
@@ -33,6 +35,16 @@ class EatmosphereGame extends FlameGame {
         onBackPressed: _popRoute,
       ),
     ),
+    PauseMenu.id: OverlayRoute(
+      (context, game) => PauseMenu(
+        onResumePressed: _resumeGame,
+        onSettingsPressed: () => _routeById(Settings.id),
+        onExitPressed: () {
+          _resumeGame();
+          _routeById(MainMenu.id);
+        },
+      ),
+    )
   };
 
   late final _router = RouterComponent(
@@ -56,8 +68,21 @@ class EatmosphereGame extends FlameGame {
   void _startLevel(int difficulty) {
     _router.pop();
     _router.pushReplacement(
-      Route(() => Gameplay(difficulty)),
+      Route(() => Gameplay(
+            difficulty,
+            onPausePressed: _pauseGame,
+          )),
       name: Gameplay.id,
     );
+  }
+
+  void _pauseGame() {
+    _router.pushNamed(PauseMenu.id);
+    pauseEngine();
+  }
+
+  void _resumeGame() {
+    _router.pop();
+    resumeEngine();
   }
 }
