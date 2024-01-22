@@ -19,7 +19,7 @@ class MainMenu extends StatelessWidget {
             'Eatmosphere',
             style: TextStyle(fontSize: 30),
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 130),
           SizedBox(
             width: 150,
             child: OutlinedButton(

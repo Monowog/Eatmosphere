@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:eatmosphere/game/routes/difficulty_selection.dart';
+import 'package:eatmosphere/game/routes/gameplay.dart';
 import 'package:eatmosphere/game/routes/main_menu.dart';
 import 'package:eatmosphere/game/routes/settings.dart';
 import 'package:flame/game.dart';
@@ -12,7 +14,14 @@ class EatmosphereGame extends FlameGame {
   late final _routes = <String, Route>{
     MainMenu.id: OverlayRoute(
       (context, game) => MainMenu(
+        onPlayPressed: () => _routeById(DiffSelection.id),
         onSettingsPressed: () => _routeById(Settings.id),
+      ),
+    ),
+    DiffSelection.id: OverlayRoute(
+      (context, game) => DiffSelection(
+        onDiffSelected: _startLevel,
+        onBackPressed: _popRoute,
       ),
     ),
     Settings.id: OverlayRoute(
@@ -34,8 +43,6 @@ class EatmosphereGame extends FlameGame {
   @override
   FutureOr<void> onLoad() async {
     await add(_router);
-    // final map = await TiledComponent.load('background.tmx', Vector2.all(16));
-    // await add(map);
   }
 
   void _routeById(String id) {
@@ -44,5 +51,13 @@ class EatmosphereGame extends FlameGame {
 
   void _popRoute() {
     _router.pop();
+  }
+
+  void _startLevel(int difficulty) {
+    _router.pop();
+    _router.pushReplacement(
+      Route(() => Gameplay(difficulty)),
+      name: Gameplay.id,
+    );
   }
 }

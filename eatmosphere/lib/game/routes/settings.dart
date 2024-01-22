@@ -31,7 +31,7 @@ class Settings extends StatelessWidget {
             'Settings',
             style: TextStyle(fontSize: 30),
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 30),
           SizedBox(
             width: 170,
             child: ValueListenableBuilder<bool>(
@@ -58,9 +58,9 @@ class Settings extends StatelessWidget {
                     title: child,
                   );
                 },
-                child: const Text('SFX')),
+                child: const Text('  SFX')),
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 35),
           IconButton(
             onPressed: onBackPressed,
             icon: const Icon(Icons.arrow_back_rounded),
