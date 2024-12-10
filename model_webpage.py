@@ -1,10 +1,6 @@
 import streamlit as st
 
 
-def load_model():
-    model = tf.keras.models.load_model('best_model.h5')
-    return model 
-
 model = load_model()
 
 st.write("""
