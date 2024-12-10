@@ -1,8 +1,5 @@
 import streamlit as st
 
-
-model = load_model()
-
 st.write("""
          # NFL Victor Predictor
          """)
