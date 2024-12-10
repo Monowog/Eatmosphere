@@ -48,10 +48,11 @@ away_team = st.selectbox("Away Team", team_list)
 #    return prediction
 
 if st.button("Predict", type="primary"):
-    if home_team == away_team:
-        st.text("A team can't play against itself!")
-    elif (home_team == 'Select Team') or (away_team == 'Select Team'):
+    
+    if (home_team == 'Select Team') or (away_team == 'Select Team'):
         st.text("Please select two different teams to compete")
+    elif home_team == away_team:
+        st.text("A team can't play against itself!")
     else:
         output = "This is a placeholder"
         st.success(output)
